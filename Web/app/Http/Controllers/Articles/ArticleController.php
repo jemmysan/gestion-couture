@@ -10,12 +10,14 @@ use App\Models\Categories\Categorie;
 use App\Http\Requests\Articles\ArticleRequest;
 use App\Http\Controllers\Messages\ResponseMessage;
 use App\Http\Controllers\CommonMethods\CommonMethod;
+use App\Http\Resources\Collections\Articles\ArticleCollection;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index($nbrPage)
     {
-        
+        $articles = Article::paginate($nbrPage);
+        return new ArticleCollection($articles);
     }
    
     public function store(ArticleRequest $request)
