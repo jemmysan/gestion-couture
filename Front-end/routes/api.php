@@ -34,6 +34,8 @@ Route::prefix('categorie')->group(function (){
 
 Route::prefix('article')->group(function (){
     Route::post('/store',[ArticleController::class,'store']);
+    Route::delete('/delete/{id}',[ArticleController::class,'delete']);
+    Route::get('/restore/{id}',[ArticleController::class,'restore']);
     Route::put('/update/{id}',[ArticleController::class,'update']);
     Route::get('/list/{id}',[ArticleController::class,'index']);
 });

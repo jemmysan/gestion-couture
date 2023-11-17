@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Categories\Categorie;
 use App\Http\Requests\Articles\ArticleRequest;
+use App\Models\Associations\ArticleFournisseur;
 use App\Http\Controllers\Messages\ResponseMessage;
 use App\Http\Controllers\CommonMethods\CommonMethod;
 use App\Http\Resources\Collections\Articles\ArticleCollection;
@@ -71,5 +72,35 @@ class ArticleController extends Controller
             'reference'=>$method->createReference($request->libelle,$request->categorie)
         ]);
         return response()->json(['message'=>'Modification effectuée avec success!']);    
+    }
+
+
+    public function delete($idArticle)
+    {
+        return DB::transaction(function () use($idArticle){
+            $article = Article::find($idArticle);
+            if($article)
+            {
+                // $article->fournisseurs()->update(['deleted_at' => now()]);
+                $association = ArticleFournisseur::where('article_id',$idArticle)->get();
+                foreach ($association as $items) {
+                    $items->update(['deleted_at' => now()]);
+                }
+                $article->delete();
+                return response()->json(['messages'=>'article supprimé avec succès']);
+            }
+            else
+            {
+                return response()->json(['messages'=>'article introuvable']);
+            }
+        });
+    }
+
+    public function restore($id)
+    {
+        return $association = ArticleFournisseur::where('article_id',$id)->get();
+
+        $article = Article::where('id',$id)->restore();
+        return response()->json(["messages"=>"restore successfully"]);
     }
 }
