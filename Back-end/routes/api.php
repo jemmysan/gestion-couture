@@ -27,6 +27,7 @@ Route::prefix('fournisseur')->group(function (){
 });
 
 Route::prefix('categorie')->group(function (){
+    Route::get('/all',[CategorieController::class,'index']);
     Route::post('/store',[CategorieController::class,'store']);
     Route::get('/find/{id}',[CategorieController::class,'getCategorieById']);
 });

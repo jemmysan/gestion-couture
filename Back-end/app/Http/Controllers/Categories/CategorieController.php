@@ -11,6 +11,11 @@ use App\Http\Resources\Resources\Categories\CategorieResource;
 
 class CategorieController extends Controller
 {
+    public function index()
+    {
+        return CategorieResource::collection(Categorie::all());
+    }
+
     public function store(Request $request)
     {
         $validate = $request->validate([
