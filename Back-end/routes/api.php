@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Articles\ArticleController;
+use App\Http\Controllers\CommonMethods\CommonMethod;
 use App\Http\Controllers\Categories\CategorieController;
 use App\Http\Controllers\Fournisseurs\FournisseurController;
 
@@ -33,6 +34,9 @@ Route::prefix('categorie')->group(function (){
 });
 
 
+Route::get('numOrder/{model}/{cat}',[CommonMethod::class,'insertOrderNum']);
+
+
 Route::prefix('article')->group(function (){
     Route::post('/store',[ArticleController::class,'store']);
     Route::delete('/delete/{id}',[ArticleController::class,'delete']);
@@ -40,6 +44,5 @@ Route::prefix('article')->group(function (){
     Route::put('/update/{id}',[ArticleController::class,'update']);
     Route::get('/list/{id}',[ArticleController::class,'index']);
 });
-
 
 

@@ -32,7 +32,8 @@ class FournisseurController extends Controller
     public function findFournisseur(Request $request)
     {
         $keyWord = $request->validate([
-            'keyword'=>'min:2|regex:/^[a-zA-Z]+$/'
+            'keyword'=>'regex:/^[a-zA-Z]+$/'
+
         ]);
         return fournisseur::where('first_name','like','%'.$keyWord['keyword'].'%')
                             ->orWhere('last_name','like','%'.$keyWord['keyword'].'%')

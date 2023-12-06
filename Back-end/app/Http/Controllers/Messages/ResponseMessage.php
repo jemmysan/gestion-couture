@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class ResponseMessage extends Controller
 {
+    public function generateRefOrderNum($numOrder)
+    {
+        $response = [
+            'numOrder'=>$numOrder
+        ];
+        return response($response);
+    }
+    
     public function succedRequest($result,$message)
     {
         $response = [

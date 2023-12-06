@@ -24,7 +24,7 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         $libelle = $request->libelle;
-        $prix = $request->prix;
+        $price = $request->price;
         $stock = $request->stock;
         $categorie = $request->categorie;
         $fournisseur = $request->fournisseur;
@@ -38,20 +38,22 @@ class ArticleController extends Controller
         $existArticle = Article::where('libelle',$libelle)->first();
         if(!$existArticle){
             return DB::transaction(function () use($request,$reference,$message){
+                $imageContents = file_get_contents($request->photo->path());
+                $base64Image = base64_encode($imageContents);
                 $article = Article::create([
                     'libelle'=>$request->libelle,
-                    'price'=>$request->prix,
+                    'price'=>$request->price,
                     'stock'=>$request->stock,
                     'categorie_id'=>$request->categorie,
                     'reference'=>$reference,
-                    'photo'=>$request->photo
+                    'photo'=>$base64Image
                 ]);
                 $article->fournisseurs()->attach($request->fournisseurs);
                 return $message->succedRequest($article,'Article ajouté avec succès!');
             });
         }else{
             return DB::transaction(function () use($request, $existArticle,$message){
-                $existArticle->update(['price'=>($existArticle->price+$request->prix)]);
+                $existArticle->update(['price'=>($existArticle->price+$request->price)]);
                 $existArticle->update(['stock'=>($existArticle->stock+$request->stock)]);
                 $existArticle->fournisseurs()->attach($request->fournisseurs);
                 return $message->succedRequest($existArticle,'Article ajouté avec succès!');
@@ -66,7 +68,7 @@ class ArticleController extends Controller
         $method = new CommonMethod();
         $article->update([
             'libelle'=>$request->libelle,
-            'price'=>$request->prix,
+            'price'=>$request->price,
             'stock'=>$request->stock,
             'categorie_id'=>$request->categorie,
             'reference'=>$method->createReference($request->libelle,$request->categorie)

@@ -22,11 +22,12 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'libelle'=>'required|min:3|regex:/^[a-zA-Z-]+$/',
-            'prix'=>'required|numeric',
+            'libelle' => 'required|min:3|regex:/^[\pL\s\-]+$/u',
+            'price'=>'required|numeric',
             'stock'=>'required|numeric',
             'categorie'=>'required|numeric',
-            'fournisseurs'=>'required'
+            'fournisseurs'=>'required',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
