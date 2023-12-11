@@ -11,6 +11,7 @@ import { ItemComponent } from './articles/article-confection/list/item/item.comp
 import { PaginationComponent } from './articles/pagination/pagination.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CategorieComponent } from './categories/categorie/categorie.component';
 // declare function findFournisseur():void
 
 
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     ListComponent,
     ItemComponent,
     PaginationComponent,
+    CategorieComponent,
    
   ],
   imports: [
