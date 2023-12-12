@@ -8,12 +8,14 @@ use App\Models\Categories\Categorie;
 use Illuminate\Database\QueryException;
 use App\Http\Controllers\Messages\ResponseMessage;
 use App\Http\Resources\Resources\Categories\CategorieResource;
+use App\Http\Resources\Collections\Categories\CategorieCollection;
 
 class CategorieController extends Controller
 {
-    public function index()
+    public function index($nbrPage)
     {
-        return CategorieResource::collection(Categorie::all());
+        $categorie = Categorie::paginate($nbrPage);
+        return new CategorieCollection($categorie);
     }
 
     public function store(Request $request)
