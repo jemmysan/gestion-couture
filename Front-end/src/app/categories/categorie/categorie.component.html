@@ -9,44 +9,50 @@
                 </div>
                 <div class="flex justify-between">
                     <div class="px-2 text-lg font-semibold text-blue-800">
-                        <h3>Editer</h3>
+                        <h3>Ajouter</h3>
                     </div>
                     <div class=" relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                         <input type="checkbox" name="toggle" id="toggle" class="m-0.5 ring-1 ring-white toggle-checkbox absolute block w-2/4 h-5 rounded-full
                          bg-blue-800 appearance-none cursor-pointer"/>
-                        <label for="toggle" class="bg-white border-2 toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        <label for="toggle" class=" border-2 toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
                     </div>
                     <div class="text-lg font-semibold text-blue-800">
-                        <h3>Ajouter</h3>
+                        <h3>Editer</h3>
                     </div>
                     
                 </div>
             </div>
 
 
-            <!-------- Forme ajout article ------->
-            <div class="mt-10 shadow-sm shadow-blue-950 rounded-md w-[55%] flex-1 flex justify-between items-center p-10">
-                <div>
-                    <label class="block font-semibold text-xl text-blue-800 " for="email">Libelle</label>
-                </div>
-                <div class="w-[50%]">
-                    <input formControlName="libelle" class="  bg-blue-100 rounded-lg shadow shadow-blue-950
-                    placeholder-black text-lg p-2
-                    border-none block mt-1 w-full" 
-                    id="email" type="email" name="email" required="required">
-                </div>
+            <!-------- Forme ajout categorie ------->
+            <div class=" w-[100%] flex justify-center items-center px-[25%]">
 
-                <div>
-                    <button class="w-32 p-2 h-10 text-xl  bg-blue-800  rounded-md
-                 text-white shadow-md shadow-blue-950" >
-                    Ajouter</button>
-                </div>
+                
+                <form class="min-w-min shadow-sm shadow-blue-950 rounded-md min-w-auto w-20 p-10 w-full flex-1 flex justify-between items-center" [formGroup]="formCat">
+                    <div>
+                        <label class="block font-semibold text-xl text-blue-800 " for="email">Libelle</label>
+                    </div>
+                        <div class="w-[50%] min-w-max">
+                            <input formControlName="categorie" class="  bg-blue-100 rounded-lg shadow shadow-blue-950
+                            placeholder-black text-lg p-2
+                            border-none block mt-1 w-full" 
+                            id="cat" type="text" name="categorie" required="required">
+                            
+                        </div>
+                        
+                        <div class="min-w-min">
+                            <button (click)="addNewCategorie()" class="w-32  min p-2 h-10 text-xl  bg-blue-800  rounded-md
+                            text-white shadow-md shadow-blue-950" >
+                            Ajouter</button>
+                        </div>
+                    </form>
+                    
                 
             </div>
 
 
-            <!------- List articles -->
-            <div>
+            <!------- List Categorie -->
+            <div >
    
     
                 <!-- component -->
@@ -107,93 +113,69 @@
                                 </div>
                             </div>
             
-                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+
+                        <!------------- table list of Categorie ------------->
+                            <div class="w-[40%] -mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                                 <div class="inline-block min-w-full shadow shadow-blue-950 rounded-lg overflow-hidden">
-                                    <table class="min-w-full leading-normal">
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    class="px-5 py-3 border-b-2 border-blue-800 bg-blue-100 text-left text-xs font-semibold text-blue-800 uppercase tracking-wider">
-                                                Article
-                                                </th>
-                                                <th
-                                                    class="px-5 py-3 border-b-2 border-blue-800 bg-blue-100 text-left text-xs font-semibold text-blue-800 uppercase tracking-wider">
-                                                    Prix
-                                                </th>
-                                                <th
-                                                    class="px-5 py-3 border-b-2 border-blue-800 bg-blue-100 text-left text-xs font-semibold text-blue-800 uppercase tracking-wider">
-                                                    Stock
-                                                </th>
-                                                <th
-                                                    class="px-5 py-3 border-b-2 border-blue-800 bg-blue-100 text-left text-xs font-semibold text-blue-800 uppercase tracking-wider">
-                                                Categorie
-                                                </th>
-                                                <th
-                                                    class="px-5 py-3 border-b-2 border-blue-800 bg-blue-100 text-left text-xs font-semibold text-blue-800 uppercase tracking-wider">
-                                                &nbsp;
-                                                </th>
-                                            </tr>
+                                    <table class="w-full"> 
+                                        
+                                        <thead class="text-blue-800 shadow-sm shadow-blue-950 text-lg">
+                                            <th class="w-20 flex justify-between items-center pl-2 border-r-2">
+                                                <input type="checkbox">
+                                                <span class="mr-5">All</span>
+                                            </th>
+                                            <th class="  w-[60%] max-w-auto">
+                                                <!-- <div class="flex justify-start pl-4"> -->
+                                                    <span>Libelle</span>
+                                                <!-- </div> -->
+                                               </th>
+                                            <!-- <th class="w-[38%]">Action</th> -->
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
-                                                    <div class="flex items-center">
-                                                        <div class="flex-shrink-0 w-10 h-10">
-                                                            <img class="w-full h-full rounded-full"
-                                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                                alt="" />
-                                                        </div>
-                                                        <div class="ml-3">
-                                                            <p class="text-blue-900 whitespace-no-wrap">
-                                                                Vera Carpenter
-                                                            </p>
-                                                        </div>
+
+                                       <tbody class="pt-2" *ngFor="let item of listCat" >
+                                            <tr class="w-full"> 
+                                                <td class="  w-20  flex justify-between items-center px-2 border-r-2">
+                                                    <div class="h-full mt-2 px-4 py-3   w-full flex justify-center">
+                                                        <div class="h-full">
+                                                           <input type="checkbox">
+                                                        </div> 
+                                                    </div>  
+                                                </td>
+
+                                                <td class="border-b-2 w-full max-w-auto text-blue-800">
+                                                     <div class="flex justify-center mt-2 px-4 py-2 text-lg">
+                                                         <span class="text-start  w-full">
+                                                            {{item.libelle}}
+                                                         </span> 
+                                                     </div>  
+                                                </td>
+
+                                                <!-- <td class="border-b-2 w-[30%]">
+                                                <div class="w-full flex justify-center">
+                                                    <div class="flex justify-between  ">
+                                                        <button class="m-2  w-6">
+                                                            <svg class="w-6 h-6 text-yellow-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                                <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                                                                <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                                                            </svg>
+                                                        </button>
+
+                                                        <button class=" m-2   w-6">
+                                                            <svg class="w-6 h-6 text-red-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
+                                                            </svg>
+                                                        </button>
+                                                            
+                                                        
                                                     </div>
-                                                </td>
-            
-                                                <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
-                                                    <p class="text-blue-900 whitespace-no-wrap">Admin</p>
-                                                </td>
-                                                <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
-                                                    <p class="text-blue-900 whitespace-no-wrap">
-                                                        Jan 21, 2020
-                                                    </p>
-                                                </td>
-                                                <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
-                                                    <span
-                                                        class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                        <span aria-hidden
-                                                            class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                        <span class="relative">Activo</span>
-                                                    </span>
-                                                </td>
-            
-                                                <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
-                                                    <div class="flex justify-around items-end">
-                                                        <div class="flex justify-center p-1 bg-amber-400 w-[40%]">Edit</div>
-                                                        <div class="flex justify-center p-1 bg-red-400 w-[40%]">Supp</div>
-                                                    </div>
-                                                </td>
+                                                </div>
+                                                </td> -->
                                             </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                    <div
-                                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                                        <span class="text-xs xs:text-sm text-blue-900">
-                                            Showing 1 to 4 of 50 Entries
-                                        </span>
-                                        <div class="inline-flex mt-2 xs:mt-0">
-                                            <button
-                                                class="text-sm bg-blue-300 hover:bg-blue-400 text-blue-800 font-semibold py-2 px-4 rounded-l">
-                                                Prev
-                                            </button>
-                                            <button
-                                                class="text-sm bg-blue-300 hover:bg-blue-400 text-blue-800 font-semibold py-2 px-4 rounded-r">
-                                                Next
-                                            </button>
-                                        </div>
-                                    </div>
+                                       </tbody>
+
+                                   
+                                        
+                                </table>
                                 </div>
                             </div>
                         </div>

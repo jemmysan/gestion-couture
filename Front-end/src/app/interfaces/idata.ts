@@ -10,7 +10,7 @@ export interface IArticle {
 }
 
 export interface ICategorie {
-    id: number,
+    id?: number,
     libelle: string,
 }
 
