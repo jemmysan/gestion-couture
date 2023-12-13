@@ -16,9 +16,9 @@ export class CategorieService {
 
   constructor(private httpClient : HttpClient) { }
 
-  displayCategorie($nbrPage : number) : Observable<any>
+  displayCategorie() : Observable<any>
   {
-      return this.httpClient.get(this.apiUrl+this.uriListCat+$nbrPage)
+      return this.httpClient.get(this.apiUrl+this.uriListCat)
   }
 
   addCategorie(categorie : ICategorie ) : Observable<ICategorie>{

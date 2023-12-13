@@ -11,6 +11,6 @@ export const uri = {
 export const uriCat = {
     'addCategorie' :`${uriPrefix[0]}/store` ,
     'getCategorie' : `${uriPrefix[0]}/all`,
-    'ListCategorie' :`${uriPrefix[0]}/list/`,
+    'ListCategorie' :`${uriPrefix[0]}/list`,
 }
 

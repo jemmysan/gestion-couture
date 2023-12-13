@@ -12,6 +12,7 @@ import { PaginationComponent } from './articles/pagination/pagination.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CategorieComponent } from './categories/categorie/categorie.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 // declare function findFournisseur():void
 
 
@@ -32,7 +33,8 @@ import { CategorieComponent } from './categories/categorie/categorie.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -13,6 +13,9 @@ export class CategorieComponent implements OnInit {
 
   listCat : ICategorie[] = [];
   catItem : ICategorie|undefined|null;
+  typedValue! : string;
+  numPage = 1;
+  nbrPage = 3;
 
   formCat = new FormGroup({
     categorie : new FormControl('',Validators.minLength(2))
@@ -20,7 +23,7 @@ export class CategorieComponent implements OnInit {
 
   constructor(private CategorieService  : CategorieService){}
   ngOnInit(): void {
-      this.CategorieService.displayCategorie(3).subscribe(response =>{
+      this.CategorieService.displayCategorie().subscribe(response =>{
         this.listCat = response.data;
       })
   }
@@ -40,8 +43,22 @@ export class CategorieComponent implements OnInit {
           this.catItem = {libelle : inputValue}
           this.CategorieService.addCategorie(this.catItem).subscribe(response=>{
             console.log(response)
+            this.formCat.reset();
           })
       }
-   
+  }
+
+  search()
+  {
+    if(this.typedValue =="")
+    {
+        this.ngOnInit()
+    }
+    else
+    {
+      this.listCat = this.listCat.filter(res=>{
+          return res.libelle.toLowerCase().match(this.typedValue.toLowerCase());
+      })
+    }
   }
 }
