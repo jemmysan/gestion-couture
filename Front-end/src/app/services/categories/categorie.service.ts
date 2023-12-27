@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { apiUrlEnv } from 'src/app/environments/apiurl-environment';
-import { uriCat } from 'src/app/environments/uri-environment';
+import { uriCategorie } from 'src/app/environments/uri-environment';
 import { ICategorie } from 'src/app/interfaces/idata';
 
 @Injectable({
@@ -11,8 +11,10 @@ import { ICategorie } from 'src/app/interfaces/idata';
 
 export class CategorieService {
   apiUrl = apiUrlEnv.apiUrl;
-  uriListCat = uriCat.ListCategorie;
-  uriAddCat = uriCat.addCategorie;
+  uriListCat = uriCategorie.ListCategorie;
+  uriAddCat = uriCategorie.addCategorie;
+  uriUpdateCat = uriCategorie.updateCategorie;
+  uriDeleteCat = uriCategorie.deleteCategorie;
 
   constructor(private httpClient : HttpClient) { }
 
@@ -22,6 +24,14 @@ export class CategorieService {
   }
 
   addCategorie(categorie : ICategorie ) : Observable<ICategorie>{
-    return this.httpClient.post<ICategorie>(this.apiUrl+this.uriAddCat,categorie)
+    return this.httpClient.post<ICategorie>(this.apiUrl+this.uriAddCat,categorie);
+  }
+
+  updateCategorie(categorie : ICategorie,id : number) : Observable<ICategorie>{
+    return this.httpClient.put<ICategorie>(this.apiUrl+this.uriUpdateCat+id,categorie)
+  }
+
+  deleteCategorie(categorie : ICategorie) : Observable<ICategorie>{
+    return this.httpClient.post<ICategorie>(this.apiUrl+this.uriDeleteCat,categorie)
   }
 }

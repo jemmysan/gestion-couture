@@ -11,11 +11,13 @@ import { FormControl, FormControlName, FormGroup, Validator, Validators } from '
 
 export class CategorieComponent implements OnInit {
 
-  buttonAddOrEdit : string = "Ajouter";
+  action : string[] = ["Ajouter","Editer"]
+  buttonAddOrEdit : string = this.action[0];
   disableAddOrEditbutton : boolean = true;
   bgButton = 'bg-blue-800';
-  valLength! : any;
   disableAddEditButton : boolean = true;
+  disableDeleteButton : boolean = true;
+  valLength! : any;
   listCat : ICategorie[] = [];
   catItem : ICategorie|undefined|null;
   typedValue! : string;
@@ -34,61 +36,59 @@ export class CategorieComponent implements OnInit {
 
   constructor(private CategorieService  : CategorieService){}
   ngOnInit(): void {
-    this.inputOntyped();
     this.CategorieService.displayCategorie().subscribe(response =>{
       this.listCat = response.data;
     });
   }
 
-  get categorie()
-  {
+  
+
+  //**** Getter du input libelle ****/
+  get categorie(){
       return this.formCat.get('categorie');
   }
 
-  addNewCategorie()
-  {
-      let inputValue = this.categorie?.value
-      if(typeof(inputValue) === 'string')
-      {
-          this.catItem = {libelle : inputValue}
-          this.CategorieService.addCategorie(this.catItem).subscribe(response=>{
-            console.log(response)
-            this.formCat.reset();
-          })
+  //**** Ajouter une nouvelle categorie ******/
+  addOrEditCategorie(){
+    if(this.buttonAddOrEdit == this.action[0]){
+        let inputValue = this.categorie?.value
+        if(typeof(inputValue) === 'string'){
+            this.catItem = {libelle : inputValue}
+            this.CategorieService.addCategorie(this.catItem).subscribe(response=>{
+              console.log(response)
+              this.formCat.reset();
+            })
+        }
+      }else{
+        // this.CategorieService.updateCategorie()
       }
   }
 
-  search()
-  {
-    if(this.typedValue =="")
-    {
+  /******* Afficher categorie par recherche Lettre  ********/
+  search(){
+    if(this.typedValue ==""){
         this.ngOnInit()
     }
-    else
-    {
+    else{
       this.listCat = this.listCat.filter(res=>{
           return res.libelle.toLowerCase().match(this.typedValue.toLowerCase());
       })
     }
   }
 
-
+//***** Changer etat en edit ou ajouter */
   toggle(){
     this.isToggle = !this.isToggle;
-    if(this.isToggle)
-    {
+    if(this.isToggle){
+        this.checkAll = false;
         this.ngOnInit();
         this.bgButton = 'bg-yellow-300';
-        
-
         this.buttonAddOrEdit = 'Modifier';
         this.disableWhenAdd = true;
         this.hideElement = true;
         this.editCatVar = true;
         console.log('Editer')
-    }
-    else
-    {
+    }else{
       this.ngOnInit();
       this.bgButton = "bg-blue-800";
       this.buttonAddOrEdit = 'Ajouter';
@@ -100,28 +100,17 @@ export class CategorieComponent implements OnInit {
     }
   }
 
-  editCategorie(id : any, libelle : any)
-  {
+  //******* Modifier une categorie *******/
+  editCategorie(id : any, libelle : any){
       if(this.editCatVar == true){
         this.categorie?.setValue(libelle);
         console.log(libelle);
       }
   }
 
-  ok()
-  {
-    console.log('Je ne sais')
-  }
 
-  inputOntyped()
-  {
-    if(this.categorie?.value !== undefined && this.categorie?.value!.length >2)
-    {
-      this.disableAddEditButton = false;
-    }
-  }
-  
 
+  //********* Cocher toutes les categorie ********/
   checkAllCheckBoxes()
   {
       for(let item of this.listCat){
@@ -129,24 +118,59 @@ export class CategorieComponent implements OnInit {
       }
       this.updateCheckAllState();
       this.getSelectedIds();
+      this.getDeleteButtonDisabled();
   }
 
-  updateCheckAllState()
-  {
+  //****** Mettre a jour les checkboxes ****/
+  updateCheckAllState(){
       this.checkAll = this.listCat.every(item =>item.checked);
   }
 
+  //******* Cocher une seule checkBox ******/
   checkSingleCheckBox(){
     this.updateCheckAllState();
     this.getSelectedIds();
+    this.getDeleteButtonDisabled();
   }
 
-  getSelectedIds()
-  {
+  //******* Recuperer l'id d'une categorie cliquer ******/
+  getSelectedIds(){
     this.selectedCatIds = this.listCat.filter(
       item =>item.checked).map(
         item=>item.id
     )
     console.log(this.selectedCatIds)
+  }
+
+  //********* Desactiver ou activer le bouton ajout/modifier ****/
+  onTypeEnableButton(){
+    this.disableButton();
+  }
+
+  //******** Test taille value input pour desactiver *****/
+  disableButton(){
+    let lengthValue = this.categorie?.value?.length;
+    if(lengthValue! >=3){
+      this.disableAddOrEditbutton = false;
+    }else{
+      this.disableAddOrEditbutton = true;
+    }
+  }
+
+  getDeleteButtonDisabled()
+  {
+    let val = this.selectedCatIds.length
+    if(val>0){
+      this.disableDeleteButton = false
+    }else{
+      this.disableDeleteButton = true
+    }
+  }
+
+
+  /********* Delete Categorie  ********/
+  deleteCategorie()
+  {
+    console.log('delete myyyy');   
   }
 }
