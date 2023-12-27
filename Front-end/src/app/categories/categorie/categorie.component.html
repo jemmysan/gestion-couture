@@ -13,7 +13,7 @@
                     </div>
                     <div class=" relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                         <input type="checkbox" name="toggle" id="toggle" class="m-0.5 ring-1 ring-white toggle-checkbox absolute block w-2/4 h-5 rounded-full
-                         bg-blue-800 appearance-none cursor-pointer"/>
+                         bg-blue-800 appearance-none cursor-pointer" (change)="toggle()"/>
                         <label for="toggle" class=" border-2 toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
                     </div>
                     <div class="text-lg font-semibold text-blue-800">
@@ -28,7 +28,7 @@
             <div class=" w-[100%] flex justify-center items-center px-[25%]">
 
                 
-                <form class="min-w-min shadow-sm shadow-blue-950 rounded-md min-w-auto w-20 p-10 w-full flex-1 flex justify-between items-center" [formGroup]="formCat">
+                <form class="min-w-min shadow-sm shadow-blue-950 rounded-md min-w-auto p-10 w-full flex-1 flex justify-between items-center" [formGroup]="formCat">
                     <div>
                         <label class="block font-semibold text-xl text-blue-800 " for="email">Libelle</label>
                     </div>
@@ -36,23 +36,20 @@
                             <input formControlName="categorie" class="  bg-blue-100 rounded-lg shadow shadow-blue-950
                             placeholder-black text-lg p-2
                             border-none block mt-1 w-full" 
-                            id="cat" type="text" name="categorie" required="required">
-                            
+                        id="cat" type="text" name="categorie" required="required" > 
                         </div>
                         
                         <div class="min-w-min">
-                            <button (click)="addNewCategorie()" class="w-32  min p-2 h-10 text-xl  bg-blue-800  rounded-md
-                            text-white shadow-md shadow-blue-950" >
-                            Ajouter</button>
+                            <button [disabled]="disableAddOrEditbutton" (click)="ok()" [class]="bgButton" class="w-32  min p-2 h-10 text-xl rounded-md
+                            text-white shadow-md  shadow-blue-950" >
+                            {{buttonAddOrEdit}}</button>
                         </div>
                     </form>
-                    
-                
             </div>
 
 
             <!------- List Categorie -->
-            <div >
+            <div>
    
     
                 <!-- component -->
@@ -62,7 +59,7 @@
                             <div class="p-2">
                                 <h2 class="text-2xl font-bold leading-tight text-blue-800">Liste categories</h2>
                             </div>
-                            <div class="mt-4 shadow-sm shadow-blue-950 w-[20%] rounded-lg bg-slate-100 flex justify-between">
+                            <div class="mt-4 shadow-sm shadow-blue-950 w-[24%] rounded-lg bg-slate-100 flex justify-between">
                                 
                                     <div class="pl-2 rounded-l-lg flex justify-center items-center">
                                         <svg class="w-4 h-4 text-blue-950 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -71,6 +68,15 @@
                                     </div>
                                     <div>
                                         <input class="rounded-r-lg text-blue-800" type="text" placeholder="Search" [(ngModel)]="typedValue" (ngModelChange)="search()">
+                                    </div>
+
+                                    <div class="min-w-min">
+                                        <button  [hidden]="hideElement"  class="w-auto p-1 mt-2 mr-2  h-auto text-xl  bg-red-600  rounded-md
+                                            text-white shadow-md shadow-blue-950" >
+                                            <svg class="w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                                <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
+                                            </svg>
+                                        </button>
                                     </div>
                                 
                             </div>
@@ -83,10 +89,10 @@
                                         
                                         <thead class="text-blue-800 shadow-sm shadow-blue-950 text-lg">
                                             <th class="w-20 flex justify-between items-center pl-2 border-r-2">
-                                                <input type="checkbox">
+                                                <input type="checkbox" [disabled]="disableWhenAdd" [(ngModel)]="checkAll" (change)="checkAllCheckBoxes()">
                                                 <span class="mr-5">All</span>
                                             </th>
-                                            <th class="  w-[60%] max-w-auto">
+                                            <th class=" bg   w-[60%] max-w-auto">
                                                 <!-- <div class="flex justify-start pl-4"> -->
                                                     <span>Libelle</span>
                                                 <!-- </div> -->
@@ -99,14 +105,14 @@
                                                 <td class="  w-20  flex justify-between items-center px-2 border-r-2">
                                                     <div class="h-full mt-2 px-4 py-3   w-full flex justify-center">
                                                         <div class="h-full">
-                                                           <input type="checkbox">
+                                                           <input type="checkbox"  [(ngModel)]="item.checked" (change)="checkSingleCheckBox()"  [disabled]="disableWhenAdd">
                                                         </div> 
                                                     </div>  
                                                 </td>
 
                                                 <td class="border-b-2 w-full max-w-auto text-blue-800">
-                                                     <div class="flex justify-center mt-2 px-4 py-2 text-lg">
-                                                         <span class="text-start  w-full">
+                                                     <div class=" flex justify-center mt-2 px-4 py-2 text-lg"> 
+                                                         <span  (click)="editCategorie(item?.id, item?.libelle)" class="bg-slate-100 text-start  w-full rounded-full pl-2">
                                                             {{item.libelle}}
                                                          </span> 
                                                      </div>  
@@ -147,9 +153,6 @@
                                             </tr>
                                         </tfoot>
                                        
-
-                                       
-                                        
                                     </table>
                                 </div>
                             </div>
