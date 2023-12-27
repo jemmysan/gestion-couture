@@ -30,7 +30,7 @@ Route::prefix('fournisseur')->group(function (){
 Route::prefix('categorie')->group(function (){
     Route::post('/store',[CategorieController::class,'store']);
     Route::put('/update/{id}',[CategorieController::class,'update']);
-    Route::delete('/delete',[CategorieController::class,'delete']);
+    Route::post('/delete',[CategorieController::class,'delete']);
     Route::get('/list',[CategorieController::class,'index']);
     Route::get('/find/{id}',[CategorieController::class,'getCategorieById']);
 });

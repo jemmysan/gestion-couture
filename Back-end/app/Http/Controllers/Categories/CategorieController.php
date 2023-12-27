@@ -40,7 +40,7 @@ class CategorieController extends Controller
            return $this->message->succedRequestWithData($categorie,'categorie ajouter avec succès!');
         }
         else{
-            return $message->errorRequest('categorie existe déjà!',422);
+            return $this->message->failedRequest('categorie existe déjà!',422);
         }
     }
 
