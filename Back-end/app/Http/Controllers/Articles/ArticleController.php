@@ -49,14 +49,14 @@ class ArticleController extends Controller
                     'photo'=>$base64Image
                 ]);
                 $article->fournisseurs()->attach($request->fournisseurs);
-                return $message->succedRequest($article,'Article ajouté avec succès!');
+                return $message->succedRequestWithData($article,'Article ajouté avec succès!');
             });
         }else{
             return DB::transaction(function () use($request, $existArticle,$message){
                 $existArticle->update(['price'=>($existArticle->price+$request->price)]);
                 $existArticle->update(['stock'=>($existArticle->stock+$request->stock)]);
                 $existArticle->fournisseurs()->attach($request->fournisseurs);
-                return $message->succedRequest($existArticle,'Article ajouté avec succès!');
+                return $message->succedRequestWithData($existArticle,'Article ajouté avec succès!');
             });
         }  
     }

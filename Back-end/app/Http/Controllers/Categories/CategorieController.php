@@ -12,10 +12,18 @@ use App\Http\Resources\Collections\Categories\CategorieCollection;
 
 class CategorieController extends Controller
 {
-    public function index($nbrPage)
+    public $message;
+
+    public function __construct()
     {
-        $categorie = Categorie::paginate($nbrPage);
-        return new CategorieCollection($categorie);
+        $this->message = new ResponseMessage;
+    }
+
+    public function index()
+    {
+        // $categorie = Categorie::paginate($nbrPage);
+        // return new CategorieCollection($categorie);
+         return new CategorieCollection(Categorie::all());         
     }
 
     public function store(Request $request)
@@ -24,14 +32,12 @@ class CategorieController extends Controller
             'libelle'=> 'required|min:2|regex:/^[a-zA-Z-]+$/'
         ]);
     
-        $message = new ResponseMessage;
-
         $existCat = Categorie::where('libelle',$validate['libelle'])->first();
         if(!$existCat){
            $categorie = categorie::create([
                 'libelle'=>$validate['libelle']
            ]);
-           return $message->succedRequest($categorie,'categorie ajouter avec succès!');
+           return $this->message->succedRequestWithData($categorie,'categorie ajouter avec succès!');
         }
         else{
             return $message->errorRequest('categorie existe déjà!',422);
@@ -41,6 +47,44 @@ class CategorieController extends Controller
     public function getCategorieById($idCategorie)
     {
         return new CategorieResource(Categorie::find($idCategorie));
+    }
+
+
+    public function update(Request $request, $idCat)
+    {
+        try{
+            Categorie::where('id',$idCat)
+                    ->update(['libelle'=>$request->libelle]);
+            return $this->message->succedRequest('Categorie modifié avec succès!');
+        }
+        catch(QueryException $e){
+            if($e->getCode() == '23000')
+                return $this->message->failedRequest('Categorie Introuvable !',404);
+        }   
+    }
+
+
+    public function delete(Request $request)
+    {
+        $ids = $request->ids;
+        if(!empty($ids)){
+            try
+            {
+                Categorie::whereIn('id',$ids)->delete();
+                if(count($ids)>1){
+                    return $this->message->succedRequest('Categories supprimée avec succès !');
+                }
+                else{
+                    return $this->message->succedRequest('Categorie supprimées avec ');
+                }
+
+            }
+            catch(QueryException $e)
+            {
+                if($e->getCode() == '23000')
+                    return $this->message->failedRequest('Aucune categorie trouvée',500);
+            }
+        }
     }
 
 }

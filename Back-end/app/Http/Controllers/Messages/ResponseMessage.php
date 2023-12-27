@@ -15,7 +15,18 @@ class ResponseMessage extends Controller
         return response($response);
     }
     
-    public function succedRequest($result,$message)
+    public function succedRequest($message)
+    {
+        $response = [
+            'status'=>200,
+            'success'=>true,
+            'message'=>$message
+        ];
+        return response()->json($response);
+    }
+
+
+    public function succedRequestWithData($result,$message)
     {
         $response = [
             'status'=>200,
@@ -26,11 +37,11 @@ class ResponseMessage extends Controller
         return response()->json($response);
     }
 
-    public function errorRequest($message,$status)
+    public function failedRequest($message,$status)
     {
         $response = [
+            'status'=>$status,
             'message'=>$message,
-            'status'=>$status
         ];
         return response()->json($response);
     }
