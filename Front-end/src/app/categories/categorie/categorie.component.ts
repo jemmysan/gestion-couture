@@ -29,6 +29,7 @@ export class CategorieComponent implements OnInit {
   editCatVar! : boolean;
   checkAll : boolean = false;
   selectedCatIds : any[] = [];
+  getCategorieId! : number;
 
   formCat = new FormGroup({
     categorie : new FormControl('',Validators.minLength(2))
@@ -38,6 +39,7 @@ export class CategorieComponent implements OnInit {
   ngOnInit(): void {
     this.CategorieService.displayCategorie().subscribe(response =>{
       this.listCat = response.data;
+      this.listCat.reverse();
     });
   }
 
@@ -66,12 +68,21 @@ export class CategorieComponent implements OnInit {
             this.catItem = {libelle : inputValue}
             this.CategorieService.addCategorie(this.catItem).subscribe(response=>{
               console.log(response)
-              this.formCat.reset();
+              this.formCat?.reset();
               this.ngOnInit();
             })
         }
       }else{
-        // this.CategorieService.updateCategorie()
+          if(this.getCategorieId!)
+          {
+            let cat = {libelle : this.categorie?.value}
+            this.CategorieService.updateCategorie(cat,this.getCategorieId)
+                                  .subscribe(response=>{
+                                    console.log(response)
+                                    this.ngOnInit();
+                                    this.categorie?.reset();
+                                  })
+          }
       }
   }
 
@@ -93,7 +104,7 @@ export class CategorieComponent implements OnInit {
     if(this.isToggle){
         this.checkAll = false;
         this.ngOnInit();
-        this.bgButton = 'bg-yellow-300';
+        this.bgButton = 'bg-yellow-400';
         this.buttonAddOrEdit = 'Modifier';
         this.disableWhenAdd = true;
         this.hideElement = true;
@@ -115,6 +126,7 @@ export class CategorieComponent implements OnInit {
   editCategorie(id : any, libelle : any){
       if(this.editCatVar == true){
         this.categorie?.setValue(libelle);
+        this.getCategorieId = id;
         console.log(libelle);
       }
   }

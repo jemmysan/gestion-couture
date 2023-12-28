@@ -27,7 +27,7 @@ export class CategorieService {
     return this.httpClient.post<ICategorie>(this.apiUrl+this.uriAddCat,categorie);
   }
 
-  updateCategorie(categorie : ICategorie,id : number) : Observable<ICategorie>{
+  updateCategorie(categorie : any,id : number) : Observable<ICategorie>{
     return this.httpClient.put<ICategorie>(this.apiUrl+this.uriUpdateCat+id,categorie)
   }
 
