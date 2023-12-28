@@ -19,7 +19,7 @@ export class CategorieComponent implements OnInit {
   disableDeleteButton : boolean = true;
   valLength! : any;
   listCat : ICategorie[] = [];
-  catItem : ICategorie|undefined|null;
+  catItem : any;
   typedValue! : string;
   numPage = 1;
   nbrPage = 3;
@@ -48,6 +48,16 @@ export class CategorieComponent implements OnInit {
       return this.formCat.get('categorie');
   }
 
+
+  //******** Desactiver Le input libelle *****/
+  disableLibelleInput()
+  {
+    if(this.selectedCatIds.length <=0){
+      this.categorie?.disable()
+    }else{
+      this.categorie?.enable();
+    }
+  }
   //**** Ajouter une nouvelle categorie ******/
   addOrEditCategorie(){
     if(this.buttonAddOrEdit == this.action[0]){
@@ -57,6 +67,7 @@ export class CategorieComponent implements OnInit {
             this.CategorieService.addCategorie(this.catItem).subscribe(response=>{
               console.log(response)
               this.formCat.reset();
+              this.ngOnInit();
             })
         }
       }else{
@@ -113,6 +124,7 @@ export class CategorieComponent implements OnInit {
   //********* Cocher toutes les categorie ********/
   checkAllCheckBoxes()
   {
+      this.disableLibelleInput();
       for(let item of this.listCat){
           item.checked = this.checkAll
       }
@@ -128,6 +140,7 @@ export class CategorieComponent implements OnInit {
 
   //******* Cocher une seule checkBox ******/
   checkSingleCheckBox(){
+    this.disableLibelleInput();
     this.updateCheckAllState();
     this.getSelectedIds();
     this.getDeleteButtonDisabled();
@@ -170,7 +183,12 @@ export class CategorieComponent implements OnInit {
 
   /********* Delete Categorie  ********/
   deleteCategorie()
-  {
-    console.log('delete myyyy');   
+  { 
+    let tabIds = {ids : this.selectedCatIds}
+    return this.CategorieService.deleteCategorie(tabIds)
+          .subscribe(response=>{
+            console.log(response);
+            this.ngOnInit();
+          })  
   }
 }

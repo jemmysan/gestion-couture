@@ -10,6 +10,7 @@ export interface IArticle {
 }
 
 export interface ICategorie {
+    ids?:number[];
     checked?: boolean;
     id?: number,
     libelle: string,

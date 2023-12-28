@@ -31,7 +31,7 @@ export class CategorieService {
     return this.httpClient.put<ICategorie>(this.apiUrl+this.uriUpdateCat+id,categorie)
   }
 
-  deleteCategorie(categorie : ICategorie) : Observable<ICategorie>{
+  deleteCategorie(categorie : any) : Observable<ICategorie>{
     return this.httpClient.post<ICategorie>(this.apiUrl+this.uriDeleteCat,categorie)
   }
 }

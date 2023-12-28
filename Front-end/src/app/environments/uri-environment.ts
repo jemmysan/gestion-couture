@@ -14,6 +14,5 @@ export const uriCategorie = {
     'ListCategorie' :`${uriPrefix[0]}/list`,
     'updateCategorie' : `${uriPrefix[0]}/update/`,
     'deleteCategorie' : `${uriPrefix[0]}/delete`
-
 }
 
