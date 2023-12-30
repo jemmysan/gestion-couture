@@ -1,5 +1,5 @@
 export interface IArticle {
-    id: number,
+    id?: number,
     libelle?: string,
     price?: number,
     stock?:number,
@@ -17,6 +17,7 @@ export interface ICategorie {
 }
 
 export interface Ifournisseur{
+    id : number
     last_name?: string,
     first_name?:string,
     telephone?:string,

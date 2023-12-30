@@ -42,14 +42,16 @@
 
             <div class="w-[100%] flex justify-between items-center p-2">
                 <label class="block font-semibold text-xl text-blue-800" for="email">Fournisseur</label>
-                <div id="test" class="autocomplete bg-red-600  w-[68%]">
+                <div id="test" class="autocomplete bg-blue-100 rounded-lg w-[68%]">
                     <input formControlName="fournisseur_id" class=" bg-blue-100 rounded-lg shadow shadow-blue-950
                     placeholder-black text-lg p-2
-                    border-none block mt-1 w-full" 
+                    border-none block my-1 w-full" 
                     id="fournisseur" type="text" name="fournisseur" 
                     required="required" (input)="findFournisseur()">
-                    <div *ngFor="let item of tabFournisseur" class="bg-white w-full" [hidden]="listFournisseur">
-                        <button>{{item.first_name}} {{item.last_name}}</button>
+                    <div *ngFor="let item of tabFournisseur" class=" w-full" [hidden]="listFournisseur">
+                        <button class="m-1 hover:checked:target" (click)="selectFournisseur(item.id, item.first_name!, item.last_name!)">
+                            {{item.first_name}} {{item.last_name}}
+                        </button>
                     </div>
                     
                 </div>
@@ -89,16 +91,17 @@
         </div>  
     </div>
 
-    <div class=" flex py-2 px-2 my-2 w-full">
-        <div class="w-auto p-2 shadow shadow-blue-950 rounded-lg flex">
+    <div  class=" flex flex-wrap py-2 px-2 my-2 w-full">
+        <div *ngFor="let item of fournisseurChoisenIds" class="w-auto p-2 m-1 shadow shadow-blue-950 rounded-lg flex">
             <div class="mx-2 text-blue-800">
-                Fournisseur
+                {{item.first_name}} {{item.last_name}}
             </div> 
                 
-            <div class="flex justify-center items-center
-            bg-red-600 h-6 w-6 rounded-full text-white" >x</div>
+            <div (click)="removeFournisseur(item.id)" class="flex justify-center items-center
+                bg-red-600 h-6 w-6 pb-1 rounded-full text-white" >x
             </div>
+        </div>
     </div>
 </form>
 
-<script src="../../../../javscript/articleConf.js"></script>
+<!-- <script src="../../../../javscript/articleConf.js"></script> -->

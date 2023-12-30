@@ -1,5 +1,6 @@
 const uriPrefix : string[] = [
-    '/categorie'
+    '/categorie',
+    '/article'
 ]
 
 export const uri = {
@@ -10,9 +11,12 @@ export const uri = {
 
 export const uriCategorie = {
     'addCategorie' :`${uriPrefix[0]}/store` ,
-    'getCategorie' : `${uriPrefix[0]}/all`,
     'ListCategorie' :`${uriPrefix[0]}/list`,
     'updateCategorie' : `${uriPrefix[0]}/update/`,
     'deleteCategorie' : `${uriPrefix[0]}/delete`
+}
+
+export const uriArticleConf = {
+    'listArtConf' : `${uriPrefix[1]}/list`
 }
 

@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { ImageService } from 'src/app/services/images/image.service';
 import { CommonService } from 'src/app/services/commonService/common.service';
 import { FounisseurService} from 'src/app/services/fournisseurs/founisseur.service'
+import { CategorieService } from 'src/app/services/categories/categorie.service';
 
 @Component({
   selector: 'app-form',
@@ -26,6 +27,8 @@ export class FormComponent {
   keyFournisseur! : {keyword : any};
   listFournisseur : boolean = true;
   tabFournisseur : Ifournisseur[] = [];
+  fournisseurChoisenIds : Ifournisseur[] = []; 
+  articleConfs : IArticle[] = [];
  
 
   articleForm = new FormGroup({
@@ -37,18 +40,18 @@ export class FormComponent {
     photo : new FormControl(''),
     reference : new FormControl ('')
   })
-  constructor(private categorieService :ArticleConfService,
+  constructor(private categorieService :CategorieService,
               private imageService : ImageService,
               private commonService : CommonService,
-              private fournisseurService :  FounisseurService
+              private fournisseurService :  FounisseurService,
+              private articleConfService : ArticleConfService
             ){}
 
   ngOnInit ()
   {
-      this.categorieService.getCategorie().subscribe((response=>{
+      this.categorieService.displayCategorie().subscribe((response=>{
          this.categories = response.data
       }))
-      
   }
 
   get libelle()
@@ -141,13 +144,52 @@ export class FormComponent {
     value = this.fournisseur?.value  
       if(value!.length >=1){
       this.fournisseurService.findFournisseur({keyword : value}).subscribe(response=>{
-          this.tabFournisseur = response;  
+          this.tabFournisseur = response;
+          this.tabFournisseur =  this.removeIdOfArrayToAnother(this.fournisseurChoisenIds,this.tabFournisseur)
       })
       this.listFournisseur = false;
     }
     else{
       this.listFournisseur = true;
     }
+  }
+
+  selectFournisseur(idfour : number,prenomFour : string,nomFour : string)
+  {
+      this.fournisseurChoisenIds.push(
+        {
+          id : idfour,
+          first_name : prenomFour,
+          last_name : nomFour
+        }
+      )
+      this.fournisseur?.reset();
+      this.tabFournisseur = [];
+  }
+
+  removeFournisseur(id:any)
+  {
+    this.removeIdFromArray(id,this.fournisseurChoisenIds)
+  }
+
+  removeIdFromArray(id : any, arrayTarget : any)
+  {
+    let index = arrayTarget.indexOf(id);
+    return arrayTarget.splice(index,1);
+  }
+
+  removeIdOfArrayToAnother(ArraySource: Ifournisseur[], ArrayTarget:Ifournisseur[]){
+      let ids = ArraySource.map(item => item.id);
+      return ArrayTarget.filter(element=> !ids.includes(element.id));
+  }
+
+  
+  listArticleConf()
+  {
+      this.articleConfService.getArticleConf().subscribe(response=>{
+          this.articleConfs = response.data
+          console.log(this.articleConfs)
+      })
   }
 
 }
