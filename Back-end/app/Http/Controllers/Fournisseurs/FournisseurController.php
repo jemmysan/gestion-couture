@@ -33,7 +33,6 @@ class FournisseurController extends Controller
     {
         $keyWord = $request->validate([
             'keyword'=>'regex:/^[a-zA-Z]+$/'
-
         ]);
         return fournisseur::where('first_name','like','%'.$keyWord['keyword'].'%')
                             ->orWhere('last_name','like','%'.$keyWord['keyword'].'%')

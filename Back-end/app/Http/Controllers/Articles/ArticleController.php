@@ -15,9 +15,9 @@ use App\Http\Resources\Collections\Articles\ArticleCollection;
 
 class ArticleController extends Controller
 {
-    public function index($nbrPage)
+    public function index()
     {
-        $articles = Article::paginate($nbrPage);
+        $articles = Article::all();
         return new ArticleCollection($articles);
     }
    

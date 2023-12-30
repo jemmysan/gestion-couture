@@ -21,8 +21,6 @@ class CategorieController extends Controller
 
     public function index()
     {
-        // $categorie = Categorie::paginate($nbrPage);
-        // return new CategorieCollection($categorie);
          return new CategorieCollection(Categorie::all());         
     }
 
